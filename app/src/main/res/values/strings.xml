@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">PetagramUltra</string>
+    <string name="cvLikesPrueba">0</string>
+    <string name="perroNombre">el perro firulais</string>
+    <string name="pPerroNombre">PerroNombre</string>
+    <string name="Chimuelo">chimuelo</string>
+    <string name="Spyro">Spyro</string>
+    <string name="Kali">Kali</string>
+</resources>

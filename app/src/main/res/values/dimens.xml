@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cvRadius">4dp</dimen>
+    <dimen name="cvLikeNumber">150dp</dimen>
+    <dimen name="cvLikes">20dp</dimen>
+    <dimen name="cvPerroNombre">17dp</dimen>
+    <dimen name="tbButtonMarginLeft">350dp</dimen>
+</resources>
