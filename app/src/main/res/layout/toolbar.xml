@@ -8,6 +8,4 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-
-
 </androidx.appcompat.widget.Toolbar>

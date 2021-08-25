@@ -5,4 +5,10 @@
     <dimen name="cvLikes">20dp</dimen>
     <dimen name="cvPerroNombre">17dp</dimen>
     <dimen name="tbButtonMarginLeft">350dp</dimen>
+    <dimen name="tbNombre">100dp</dimen>
+    <dimen name="tbEmail">40dp</dimen>
+    <dimen name="tbMenaje">40dp</dimen>
+    <dimen name="tbMensaaje">300dp</dimen>
+    <dimen name="tvRespuestaMenu">40dp</dimen>
+    <dimen name="tvRespuestamenuMarginTop">20dp</dimen>
 </resources>

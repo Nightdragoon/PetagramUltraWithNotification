@@ -6,4 +6,16 @@
     <string name="Chimuelo">chimuelo</string>
     <string name="Spyro">Spyro</string>
     <string name="Kali">Kali</string>
+    <string name="Cynder">Cynder</string>
+    <string name="Dragoncito">Dragoncito</string>
+    <string name="mContactos">Contactos</string>
+    <string name="mAcercaDE">Acerca de</string>
+    <string name="etNombre">Nombre</string>
+    <string name="etEmail">Email</string>
+    <string name="etMensaje">Mensaje</string>
+    <string name="etEnviar">Enviar</string>
+    <string name="tvRespuestaMenutv">Su mensaje a sido enviado:</string>
+    <string name="etButton">Volver a petagram</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
