@@ -8,7 +8,20 @@ private String nombre;
 private int likes ;
 private int foto;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    private int id;
+
     public Animal(Animal animal) {
+        this.nombre = nombre;
+        this.foto = foto;
+        this.likes = likes;
     }
 
 
@@ -31,6 +44,10 @@ private int foto;
         }
     };
 
+    public Animal() {
+
+    }
+
     public boolean isTieneLike() {
         return tieneLike;
     }
@@ -41,9 +58,15 @@ private int foto;
 
     private boolean tieneLike = false;
 
-public Animal (int foto , String nombre ){
+public Animal (int foto , String nombre , int likes ){
     this.foto = foto;
     this.nombre = nombre;
+    this.likes = likes;
+
+}
+    public Animal (int foto , String nombre){
+        this.foto = foto;
+        this.nombre = nombre;
 }
 
     public int getLikes() {

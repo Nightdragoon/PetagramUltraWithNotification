@@ -1,5 +1,6 @@
 package com.joaquinemmanuel.petagramultra.fragments;
 
+import android.content.ContentValues;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,8 +13,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.joaquinemmanuel.petagramultra.Adaptador.AnimalAdaptador;
-import com.joaquinemmanuel.petagramultra.MainActivity;
 import com.joaquinemmanuel.petagramultra.R;
+import com.joaquinemmanuel.petagramultra.db.ConstantesBaseDatos;
+import com.joaquinemmanuel.petagramultra.db.DB;
 import com.joaquinemmanuel.petagramultra.pojo.Animal;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
  */
 public class Recyclerview_Fragment extends Fragment {
 
+    private static final int LIKE = 1;
     private RecyclerView listaAnimales;
     private ArrayList<Animal> animal;
     private ImageButton imgButton;
@@ -84,27 +87,56 @@ public class Recyclerview_Fragment extends Fragment {
 
         listaAnimales.setLayoutManager(glm);
 
-        inicializarAnimales();
+        inicializarDB();
+
         inicializarListaAnimales();
 
         // Inflate the layout for this fragment
         return v;
     }
-    public void inicializarAnimales(){
+    /*public void inicializarAnimales(){
         animal.add(new Animal(R.drawable.chimuelo , getResources().getString(R.string.Chimuelo)));
         animal.add(new Animal(R.drawable.spyro , getResources().getString(R.string.Spyro)));
         animal.add(new Animal(R.drawable.cynder_p , getResources().getString(R.string.Cynder)));
         animal.add(new Animal(R.drawable.dragoncito , getResources().getString(R.string.Dragoncito)));
-        animal.add(new Animal(R.drawable.kali , getResources().getString(R.string.Kali)));
+        animal.add(new Animal(R.drawable.kali , getResources().getString(R.string.Kali)));*/
 
 
 
-    }
+
     public void inicializarListaAnimales(){
         AnimalAdaptador adaptador = new AnimalAdaptador(getActivity() , animal ,imgButton);
         listaAnimales.setAdapter(adaptador);
 
+    }
+
+    public void inicializarDB(){
+        DB db = new DB(getContext());
+       animal = db.obtenerTodosLosAnimales(animal);
+        insertarAnimales(db);
 
 
     }
+
+    public void insertarAnimales(DB db){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ConstantesBaseDatos.TABLE_ANIMALS_NOMBRE ,getResources().getString(R.string.Chimuelo));
+        contentValues.put(ConstantesBaseDatos.TABLE_ANIMALS_FOTO ,R.drawable.chimuelo);
+        db.insertarAnimales(contentValues);
+        contentValues.put(ConstantesBaseDatos.TABLE_ANIMALS_NOMBRE ,getResources().getString(R.string.Spyro));
+        contentValues.put(ConstantesBaseDatos.TABLE_ANIMALS_FOTO ,R.drawable.spyro);
+        db.insertarAnimales(contentValues);
+        contentValues.put(ConstantesBaseDatos.TABLE_ANIMALS_NOMBRE ,getResources().getString(R.string.Cynder));
+        contentValues.put(ConstantesBaseDatos.TABLE_ANIMALS_FOTO ,R.drawable.cynder_p);
+        db.insertarAnimales(contentValues);
+        contentValues.put(ConstantesBaseDatos.TABLE_ANIMALS_NOMBRE ,getResources().getString(R.string.Dragoncito));
+        contentValues.put(ConstantesBaseDatos.TABLE_ANIMALS_FOTO ,R.drawable.dragoncito);
+        db.insertarAnimales(contentValues);
+        contentValues.put(ConstantesBaseDatos.TABLE_ANIMALS_NOMBRE ,getResources().getString(R.string.Kali));
+        contentValues.put(ConstantesBaseDatos.TABLE_ANIMALS_FOTO ,R.drawable.kali);
+        db.insertarAnimales(contentValues);
+    }
+
+
+
 }

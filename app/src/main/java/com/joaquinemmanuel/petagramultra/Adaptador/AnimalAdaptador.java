@@ -13,6 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.joaquinemmanuel.petagramultra.db.DB;
+import com.joaquinemmanuel.petagramultra.fragments.Recyclerview_Fragment;
+import com.joaquinemmanuel.petagramultra.likes;
 import com.joaquinemmanuel.petagramultra.pojo.Animal;
 import com.joaquinemmanuel.petagramultra.MainActivity2;
 import com.joaquinemmanuel.petagramultra.R;
@@ -77,16 +80,20 @@ public class AnimalAdaptador extends RecyclerView.Adapter<AnimalAdaptador.Animal
     @Override
     public void onBindViewHolder(@NonNull  AnimalAdaptador.AnimalViewHolder animalViewHolder, int position) {
         Animal animals = animal.get(position);
-        animalViewHolder.noLikes.setText(Integer.toString(animals.getLikes()));
         animalViewHolder.nombreAnimal.setText(animals.getNombre());
+        animalViewHolder.noLikes.setText(Integer.toString(animals.getLikes()));
         animalViewHolder.fotoAnimal.setImageResource(animals.getFoto());
         animalViewHolder.likeButton.setOnClickListener(v -> {
             Snackbar.make(activity , v ,"diste like a " + animals.getNombre() ,  Snackbar.LENGTH_LONG).show();
 
             int numerosLikes = animals.getLikes();
 
-            animals.setLikes(++numerosLikes);
-            animalViewHolder.noLikes.setText(Integer.toString(animals.getLikes()));
+            likes laiks = new likes(activity);
+
+
+            laiks.insertarLikesAnimal(animals);
+
+            animalViewHolder.noLikes.setText(Integer.toString(laiks.obtenerLikes(animals)));
 
             animals.setTieneLike(true);
             Intent intent = new Intent(activity , MainActivity2.class);
@@ -110,15 +117,6 @@ public class AnimalAdaptador extends RecyclerView.Adapter<AnimalAdaptador.Animal
                 fAnimal.add(new Animal(animals.getFoto() , animals.getNombre()));
 
             }
-
-
-
-
-
-
-
-
-
 
         });
 
