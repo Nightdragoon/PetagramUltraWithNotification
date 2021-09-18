@@ -1,5 +1,6 @@
 package com.joaquinemmanuel.petagramultra.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
  * Use the {@link miMascota_Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class miMascota_Fragment extends Fragment {
+public class miMascota_Fragment extends Fragment implements IRecyclerView_View{
 
     private RecyclerView fotos;
     private ArrayList<Animal> fotosSubidas;
@@ -115,5 +116,13 @@ public class miMascota_Fragment extends Fragment {
     private void inicializarRC() {
         FotoSubidaAdaptador adaptador = new FotoSubidaAdaptador(getActivity() , fotosSubidas);
         fotos.setAdapter(adaptador);
+    }
+    public void generarLinearLayout() {
+
+    }
+
+    @Override
+    public void inicializarAdaptador() {
+
     }
 }

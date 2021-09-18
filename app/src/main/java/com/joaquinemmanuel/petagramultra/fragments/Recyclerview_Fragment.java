@@ -1,6 +1,7 @@
 package com.joaquinemmanuel.petagramultra.fragments;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
  * Use the {@link Recyclerview_Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Recyclerview_Fragment extends Fragment {
+public class Recyclerview_Fragment extends Fragment implements IRecyclerView_View {
 
     private static final int LIKE = 1;
     private RecyclerView listaAnimales;
@@ -81,15 +82,11 @@ public class Recyclerview_Fragment extends Fragment {
         imgButton = v.findViewById(R.id.imgButton);
         animal = new ArrayList<Animal>();
         listaAnimales = v.findViewById(R.id.rvMascota);
-        LinearLayoutManager glm = new LinearLayoutManager(getActivity());
-        glm.setOrientation(RecyclerView.VERTICAL);
-
-
-        listaAnimales.setLayoutManager(glm);
+        generarLinearLayout();
 
         inicializarDB();
 
-        inicializarListaAnimales();
+        inicializarAdaptador();
 
         // Inflate the layout for this fragment
         return v;
@@ -104,11 +101,6 @@ public class Recyclerview_Fragment extends Fragment {
 
 
 
-    public void inicializarListaAnimales(){
-        AnimalAdaptador adaptador = new AnimalAdaptador(getActivity() , animal ,imgButton);
-        listaAnimales.setAdapter(adaptador);
-
-    }
 
     public void inicializarDB(){
         DB db = new DB(getContext());
@@ -138,5 +130,18 @@ public class Recyclerview_Fragment extends Fragment {
     }
 
 
+    @Override
+    public void generarLinearLayout() {
+        LinearLayoutManager glm = new LinearLayoutManager(getActivity());
+        glm.setOrientation(RecyclerView.VERTICAL);
+        listaAnimales.setLayoutManager(glm);
 
+    }
+
+    @Override
+    public void inicializarAdaptador() {
+        AnimalAdaptador adaptador = new AnimalAdaptador(getActivity() , animal ,imgButton);
+        listaAnimales.setAdapter(adaptador);
+
+    }
 }
