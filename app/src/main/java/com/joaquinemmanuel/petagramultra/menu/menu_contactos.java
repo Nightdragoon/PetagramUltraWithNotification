@@ -47,8 +47,8 @@ public class menu_contactos extends AppCompatActivity {
         Correo = findViewById(R.id.tbEmail);
         Mensaje = findViewById(R.id.etMensaje);
 
-        contraseña = "KentuckyFrieChiken0";
-        correo = "petagramultra@gmail.com";
+        contraseña = "cocacolazero";
+        correo = "crackytrini@gmail.com";
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +79,6 @@ public class menu_contactos extends AppCompatActivity {
                         message.setRecipients(Message.RecipientType.TO , InternetAddress.parse(edittextToString(Correo)));
                         message.setContent(edittextToString(Mensaje) , "text/html; charset=utf-8");
                         Transport.send(message);
-
 
                     }
 

@@ -1,4 +1,4 @@
-package com.joaquinemmanuel.petagramultra.db;
+package com.joaquinemmanuel.petagramultra.Constantes;
 
 public class ConstantesBaseDatos {
     public static final String DATABASE_NAME        = "animales";
@@ -17,7 +17,11 @@ public class ConstantesBaseDatos {
     public static final String TABLE_FAVORITOS_ID     = "id";
     public static final String TABLE_FAVORITOS_NOMBRE = "nombre";
     public static final String TABLE_FAVORITOS_FOTO   = "foto";
-
+    //=======================Usuarios===============================================
+    public static final String TABLE_USUARIOS = "usuarios";
+    public static final String TABLE_USUARIOS_ID = "id";
+    public static final String TABLE_USUARIOS_NOMBRE = "nombre";
+    public static final String TABLE_USUARIOS_ACCESS_TOKES = "access_token";
 
 
 }

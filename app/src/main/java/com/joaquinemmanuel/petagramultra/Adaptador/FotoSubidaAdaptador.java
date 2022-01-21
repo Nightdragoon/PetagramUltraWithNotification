@@ -1,29 +1,36 @@
 package com.joaquinemmanuel.petagramultra.Adaptador;
 
 import android.app.Activity;
+import android.content.ContentValues;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.joaquinemmanuel.petagramultra.R;
+import com.joaquinemmanuel.petagramultra.db.DB;
 import com.joaquinemmanuel.petagramultra.pojo.Animal;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import static android.widget.Toast.makeText;
+
 public class FotoSubidaAdaptador extends RecyclerView.Adapter<FotoSubidaAdaptador.FotoSubidaViewHolder> {
-    Activity activity;
+    Context context;
 
     ArrayList<Animal> FotoSubida;
 
-    public FotoSubidaAdaptador(Activity activity , ArrayList<Animal> FotoSubida){
-        this.activity = activity;
+    public FotoSubidaAdaptador(Context context , ArrayList<Animal> FotoSubida){
+        this.context = context;
         this.FotoSubida = FotoSubida;
     }
     @NonNull
@@ -36,19 +43,17 @@ public class FotoSubidaAdaptador extends RecyclerView.Adapter<FotoSubidaAdaptado
     @Override
     public void onBindViewHolder(@NonNull  FotoSubidaAdaptador.FotoSubidaViewHolder fotoSubidaViewHolder, int position) {
         Animal fotosubida = FotoSubida.get(position);
-        fotoSubidaViewHolder.AnimalFoto.setImageResource(fotosubida.getFoto());
+        Picasso.get().load(fotosubida.getFoto()).into(fotoSubidaViewHolder.AnimalFoto);
         fotoSubidaViewHolder.NombreAnimal.setText(fotosubida.getNombre());
-        fotoSubidaViewHolder.noLikes.setText(Integer.toString(fotosubida.getLikes()));
-        fotoSubidaViewHolder.Like.setOnClickListener(new View.OnClickListener() {
+        fotoSubidaViewHolder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(activity , v , "disle like a;" + fotosubida.getNombre() , Snackbar.LENGTH_SHORT).show();
-                int numeroslikes = fotosubida.getLikes();
-
-                fotosubida.setLikes(++numeroslikes);
-
-                fotoSubidaViewHolder.noLikes.setText(Integer.toString(fotosubida.getLikes()));
-
+                DB db = new DB(context);
+                ContentValues contentValues;
+                contentValues = db.ponerFavoritos(fotosubida.getNombre() , fotosubida.getFoto());
+                db.insertarFavoritos(contentValues);
+                makeText(context, "Animal inserstado en favoritos", Toast.LENGTH_SHORT).show();
+                db.close();
             }
         });
 
@@ -62,10 +67,9 @@ public class FotoSubidaAdaptador extends RecyclerView.Adapter<FotoSubidaAdaptado
     public class FotoSubidaViewHolder extends RecyclerView.ViewHolder {
 
 
-        private ImageView AnimalFoto;
-        private TextView NombreAnimal;
-        private ImageButton Like;
-        private TextView noLikes;
+        public ImageView AnimalFoto;
+         public TextView NombreAnimal;
+         public ImageButton like;
 
 
 
@@ -75,8 +79,8 @@ public class FotoSubidaAdaptador extends RecyclerView.Adapter<FotoSubidaAdaptado
 
             AnimalFoto = itemView.findViewById(R.id.imgAnimal3);
             NombreAnimal = itemView.findViewById(R.id.cvPerroNombre3);
-            Like = itemView.findViewById(R.id.btnLikeButton3);
-            noLikes = itemView.findViewById(R.id.tvNoLikes3);
+            like = itemView.findViewById(R.id.btnLikeButton3);
+
         }
     }
 }

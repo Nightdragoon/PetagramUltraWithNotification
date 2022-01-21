@@ -16,10 +16,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.joaquinemmanuel.petagramultra.Adaptador.FotoSubidaAdaptador;
+import com.joaquinemmanuel.petagramultra.Adaptador.Puente.PuenteCosasHelloWorld;
+import com.joaquinemmanuel.petagramultra.Constantes.ConstantesUsuarios;
 import com.joaquinemmanuel.petagramultra.R;
 import com.joaquinemmanuel.petagramultra.pojo.Animal;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,9 +34,10 @@ public class miMascota_Fragment extends Fragment implements IRecyclerView_View{
 
     private RecyclerView fotos;
     private ArrayList<Animal> fotosSubidas;
-    private String Nombre ;
+    private String user ;
     private ImageView perra;
     private TextView Nombresito;
+    private CircleImageView circleImageView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,6 +50,9 @@ public class miMascota_Fragment extends Fragment implements IRecyclerView_View{
 
     public miMascota_Fragment() {
         // Required empty public constructor
+    }
+    public miMascota_Fragment(String user){
+        this.user = user;
     }
 
     /**
@@ -79,21 +87,17 @@ public class miMascota_Fragment extends Fragment implements IRecyclerView_View{
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_mi_mascota_, container, false);
 
-        Nombre = "Cynder";
-        perra = v.findViewById(R.id.imgAnimal4);
-        perra.setImageResource(R.drawable.cynder_p);
-
-        Nombresito = v.findViewById(R.id.cvPerroNombre4);
-        Nombresito.setText("Cynder");
-
         fotos = v.findViewById(R.id.tcMiFoto);
+        circleImageView = v.findViewById(R.id.crclImg);
+        circleImageView.setImageResource(R.drawable.cynder_p);
+
         fotosSubidas = new ArrayList<Animal>();
-        GridLayoutManager glm = new GridLayoutManager(getActivity() , 2);
-        fotos.setLayoutManager(glm);
+        if (user.equals(ConstantesUsuarios.NOMBRE)){
+            PuenteCosasHelloWorld puenteCosasHelloWorld = new PuenteCosasHelloWorld(this.getContext() ,fotosSubidas  , this);
+            puenteCosasHelloWorld.crearLlamadaFotoSubida();
+        }
 
-        inicializarDatos();
 
-        inicializarRC();
 
 
         // Inflate the layout for this fragment
@@ -101,11 +105,11 @@ public class miMascota_Fragment extends Fragment implements IRecyclerView_View{
     }
 
     private void inicializarDatos() {
-        fotosSubidas.add(new Animal(R.drawable.cynder_p , "Cynder"));
-        fotosSubidas.add(new Animal(R.drawable.cynder_p2 , "Cynder"));
-        fotosSubidas.add(new Animal(R.drawable.cynder_p3 , "Cynder"));
-        fotosSubidas.add(new Animal(R.drawable.cynder_p4 , "Cynder"));
-        fotosSubidas.add(new Animal(R.drawable.cynder_p5 , "Cynder"));
+        //fotosSubidas.add(new Animal(R.drawable.cynder_p , "Cynder"));
+        //fotosSubidas.add(new Animal(R.drawable.cynder_p2 , "Cynder"));
+        //fotosSubidas.add(new Animal(R.drawable.cynder_p3 , "Cynder"));
+        //fotosSubidas.add(new Animal(R.drawable.cynder_p4 , "Cynder"));
+        //fotosSubidas.add(new Animal(R.drawable.cynder_p5 , "Cynder"));
 
 
 
@@ -113,16 +117,24 @@ public class miMascota_Fragment extends Fragment implements IRecyclerView_View{
 
     }
 
-    private void inicializarRC() {
-        FotoSubidaAdaptador adaptador = new FotoSubidaAdaptador(getActivity() , fotosSubidas);
+    public void inicializarRC(ArrayList<Animal> fotosSubidas) {
+        FotoSubidaAdaptador adaptador = new FotoSubidaAdaptador(getContext() , fotosSubidas);
         fotos.setAdapter(adaptador);
     }
+    public void generarGridLayout() {
+        GridLayoutManager glm = new GridLayoutManager(getActivity() , 2);
+        fotos.setLayoutManager(glm);
+
+    }
+
+    @Override
     public void generarLinearLayout() {
 
     }
 
     @Override
-    public void inicializarAdaptador() {
+    public void inicializarAdaptador(ArrayList<Animal> animal) {
 
     }
+
 }

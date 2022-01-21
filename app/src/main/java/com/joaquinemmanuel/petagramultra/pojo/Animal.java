@@ -3,33 +3,35 @@ package com.joaquinemmanuel.petagramultra.pojo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Animal implements Parcelable {
+public class Animal implements Parcelable  {
 private String nombre;
-private int likes ;
-private int foto;
+private String foto;
+private String id;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    private int id;
-
-    public Animal(Animal animal) {
-        this.nombre = nombre;
-        this.foto = foto;
-        this.likes = likes;
-    }
+public Animal(){
+    this.nombre = nombre;
+    this.foto = foto;
+    this.id = id;
+}
 
 
-    protected Animal(Parcel in) {
+    public Animal(Parcel in) {
         nombre = in.readString();
-        likes = in.readInt();
-        foto = in.readInt();
-        tieneLike = in.readByte() != 0;
+        foto = in.readString();
+        id = in.readString();
+    }
+
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(nombre);
+        dest.writeString(foto);
+        dest.writeString(id);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Animal> CREATOR = new Creator<Animal>() {
@@ -44,39 +46,6 @@ private int foto;
         }
     };
 
-    public Animal() {
-
-    }
-
-    public boolean isTieneLike() {
-        return tieneLike;
-    }
-
-    public void setTieneLike(boolean tieneLike) {
-        this.tieneLike = tieneLike;
-    }
-
-    private boolean tieneLike = false;
-
-public Animal (int foto , String nombre , int likes ){
-    this.foto = foto;
-    this.nombre = nombre;
-    this.likes = likes;
-
-}
-    public Animal (int foto , String nombre){
-        this.foto = foto;
-        this.nombre = nombre;
-}
-
-    public int getLikes() {
-        return likes;
-    }
-
-    public void setLikes(int likes) {
-        this.likes = likes;
-    }
-
     public String getNombre() {
         return nombre;
     }
@@ -85,24 +54,19 @@ public Animal (int foto , String nombre , int likes ){
         this.nombre = nombre;
     }
 
-    public int getFoto() {
+    public String getFoto() {
         return foto;
     }
 
-    public void setFoto(int foto) {
+    public void setFoto(String foto) {
         this.foto = foto;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getId() {
+        return id;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(nombre);
-        dest.writeInt(likes);
-        dest.writeInt(foto);
-        dest.writeByte((byte) (tieneLike ? 1 : 0));
+    public void setId(String id) {
+        this.id = id;
     }
 }

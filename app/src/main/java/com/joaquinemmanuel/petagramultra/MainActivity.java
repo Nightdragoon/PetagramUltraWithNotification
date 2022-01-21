@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.appcompat.widget.Toolbar;
@@ -28,7 +30,11 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ImageButton imgButton;
+
     private Toolbar toolbar;
+    String user;
+
 
 
 
@@ -53,29 +59,30 @@ public class MainActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tablayout);
         toolbar = findViewById(R.id.tbappbar);
+        imgButton = findViewById(R.id.imgButton);
 
-        setUpViewpager();
+        imgButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this , MainActivity2.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        Bundle parametros = getIntent().getExtras();
+        user = parametros.getString("A");
+
+        setUpViewpager(user);
 
         if(toolbar != null) {
             setSupportActionBar(toolbar);
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
-    private void setUpViewpager() {
-        viewPager.setAdapter(new pageAdapter(getSupportFragmentManager() , agregarFragment()));
+    private void setUpViewpager(String user) {
+        viewPager.setAdapter(new pageAdapter(getSupportFragmentManager() , agregarFragment(user)));
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.casa);
         tabLayout.getTabAt(1).setIcon(R.drawable.dragonsito);
@@ -87,10 +94,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private ArrayList<Fragment> agregarFragment() {
+    private ArrayList<Fragment> agregarFragment(String user) {
         ArrayList<Fragment> fragments = new ArrayList<>();
-        fragments.add(new Recyclerview_Fragment());
-        fragments.add(new miMascota_Fragment());
+        fragments.add(new Recyclerview_Fragment(user));
+        fragments.add(new miMascota_Fragment(user));
         return fragments;
     }
 
@@ -114,6 +121,11 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent2 = new Intent(MainActivity.this , menu_acercade.class);
                 startActivity(intent2);
                 break;
+            case R.id.mCambiarCuenta:
+                Intent intent3 = new Intent(MainActivity.this , Datos.class);
+                startActivity(intent3);
+                finish();
+                break;
         }
 
 
@@ -122,6 +134,12 @@ public class MainActivity extends AppCompatActivity {
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public String getUser(){
+
+        return user;
+
     }
 }
 

@@ -3,7 +3,7 @@ package com.joaquinemmanuel.petagramultra;
 import android.content.ContentValues;
 import android.content.Context;
 
-import com.joaquinemmanuel.petagramultra.db.ConstantesBaseDatos;
+import com.joaquinemmanuel.petagramultra.Constantes.ConstantesBaseDatos;
 import com.joaquinemmanuel.petagramultra.db.DB;
 import com.joaquinemmanuel.petagramultra.pojo.Animal;
 

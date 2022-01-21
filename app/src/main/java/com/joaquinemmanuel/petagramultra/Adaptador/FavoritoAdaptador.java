@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.joaquinemmanuel.petagramultra.pojo.Animal;
 import com.joaquinemmanuel.petagramultra.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -36,9 +37,8 @@ public class FavoritoAdaptador extends RecyclerView.Adapter<FavoritoAdaptador.Fa
 
 
         Animal favoritos = favorito.get(position);
-        favoritoViewHolderholder.noLikes2.setText(Integer.toString(favoritos.getLikes()));
-        favoritoViewHolderholder.PerroNombre2.setText(favoritos.getNombre());
-        favoritoViewHolderholder.imgAnimal2.setImageResource(favoritos.getFoto());
+       favoritoViewHolderholder.PerroNombre2.setText(favoritos.getNombre());
+        Picasso.get().load(favoritos.getFoto()).into(favoritoViewHolderholder.imgAnimal2);
 
 
     }
@@ -52,7 +52,6 @@ public class FavoritoAdaptador extends RecyclerView.Adapter<FavoritoAdaptador.Fa
 
         private ImageView imgAnimal2;
         private TextView PerroNombre2;
-        private TextView noLikes2;
 
 
 
@@ -63,7 +62,6 @@ public class FavoritoAdaptador extends RecyclerView.Adapter<FavoritoAdaptador.Fa
 
             imgAnimal2 = itemView.findViewById(R.id.imgAnimal2);
             PerroNombre2 = itemView.findViewById(R.id.cvPerroNombre2);
-            noLikes2 = itemView.findViewById(R.id.tvNoLikes2);
         }
     }
 }

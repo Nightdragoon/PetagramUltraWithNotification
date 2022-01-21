@@ -1,6 +1,8 @@
 package com.joaquinemmanuel.petagramultra.Adaptador;
 
 import android.app.Activity;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -19,6 +23,7 @@ import com.joaquinemmanuel.petagramultra.likes;
 import com.joaquinemmanuel.petagramultra.pojo.Animal;
 import com.joaquinemmanuel.petagramultra.MainActivity2;
 import com.joaquinemmanuel.petagramultra.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -27,8 +32,8 @@ import static android.widget.Toast.makeText;
 public class AnimalAdaptador extends RecyclerView.Adapter<AnimalAdaptador.AnimalViewHolder> {
 
     ArrayList<Animal> animal;
-    Activity activity;
-    ImageButton imgButton;
+    FragmentActivity activity;
+    Context context;
     private String PerroNombre;
     ArrayList<Animal> fAnimal = new ArrayList<Animal>();
 
@@ -39,10 +44,10 @@ public class AnimalAdaptador extends RecyclerView.Adapter<AnimalAdaptador.Animal
 
 
 
-    public AnimalAdaptador (Activity activity , ArrayList<Animal> animal , ImageButton imgButton){
+    public AnimalAdaptador (FragmentActivity activity , ArrayList<Animal> animal  , Context context){
+        this.context = context;
         this.activity = activity;
         this.animal = animal;
-        this.imgButton = imgButton;
     }
 
     public String getPerroNombre() {
@@ -81,44 +86,20 @@ public class AnimalAdaptador extends RecyclerView.Adapter<AnimalAdaptador.Animal
     public void onBindViewHolder(@NonNull  AnimalAdaptador.AnimalViewHolder animalViewHolder, int position) {
         Animal animals = animal.get(position);
         animalViewHolder.nombreAnimal.setText(animals.getNombre());
-        animalViewHolder.noLikes.setText(Integer.toString(animals.getLikes()));
-        animalViewHolder.fotoAnimal.setImageResource(animals.getFoto());
-        animalViewHolder.likeButton.setOnClickListener(v -> {
-            Snackbar.make(activity , v ,"diste like a " + animals.getNombre() ,  Snackbar.LENGTH_LONG).show();
-
-            int numerosLikes = animals.getLikes();
-
-            likes laiks = new likes(activity);
-
-
-            laiks.insertarLikesAnimal(animals);
-
-            animalViewHolder.noLikes.setText(Integer.toString(laiks.obtenerLikes(animals)));
-
-            animals.setTieneLike(true);
-            Intent intent = new Intent(activity , MainActivity2.class);
-
-
-
-
-            imgButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    intent.putParcelableArrayListExtra("PerraLista", fAnimal);
-
-
-
-                    activity.startActivity(intent);
-                }
-            });
-
-            if(animal.get(position).isTieneLike() == true){
-                fAnimal.add(new Animal(animals.getFoto() , animals.getNombre()));
-
+        Picasso.get().load(animals.getFoto()).into(animalViewHolder.fotoAnimal);
+        animalViewHolder.likeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DB db = new DB(context);
+                ContentValues contentValues;
+                contentValues = db.ponerFavoritos(animals.getNombre() , animals.getFoto());
+                db.insertarFavoritos(contentValues);
+                makeText(activity, "Animal inserstado en favoritos", Toast.LENGTH_SHORT).show();
+                db.close();
+                
             }
-
         });
+        
 
 
 
@@ -146,16 +127,12 @@ public class AnimalAdaptador extends RecyclerView.Adapter<AnimalAdaptador.Animal
         private ImageView fotoAnimal;
         private TextView nombreAnimal;
         private ImageButton likeButton;
-        private TextView noLikes;
 
         public AnimalViewHolder(View itemView) {
             super(itemView);
-
             fotoAnimal = itemView.findViewById(R.id.imgAnimal);
             nombreAnimal = itemView.findViewById(R.id.cvPerroNombre);
             likeButton = itemView.findViewById(R.id.btnLikeButton);
-            noLikes = itemView.findViewById(R.id.tvNoLikes);
-
         }
     }
 }

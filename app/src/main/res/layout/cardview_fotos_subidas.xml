@@ -33,21 +33,6 @@
                 android:textStyle="bold"
                 android:textSize="@dimen/cvPerroNombre"
                 android:layout_marginTop="@dimen/cvLikes"/>
-            <TextView
-                android:layout_marginTop="@dimen/cvLikes"
-                android:id="@+id/tvNoLikes3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cvLikesPrueba"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="30dp"
-                android:layout_marginLeft="50dp"/>
-            <ImageView
-                android:layout_marginTop="@dimen/cvLikes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/like_bone_img"/>
 
         </LinearLayout>
     </LinearLayout>

@@ -1,5 +1,6 @@
 package com.joaquinemmanuel.petagramultra.fragments;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
@@ -8,14 +9,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.joaquinemmanuel.petagramultra.Adaptador.AnimalAdaptador;
+import com.joaquinemmanuel.petagramultra.Adaptador.Puente.PuenteCosasHelloWorld;
+import com.joaquinemmanuel.petagramultra.Adaptador.Puente.PuenteCosasHelloWorld;
+import com.joaquinemmanuel.petagramultra.Constantes.ConstantesUsuarios;
+import com.joaquinemmanuel.petagramultra.MainActivity;
 import com.joaquinemmanuel.petagramultra.R;
-import com.joaquinemmanuel.petagramultra.db.ConstantesBaseDatos;
 import com.joaquinemmanuel.petagramultra.db.DB;
 import com.joaquinemmanuel.petagramultra.pojo.Animal;
 
@@ -31,7 +36,7 @@ public class Recyclerview_Fragment extends Fragment implements IRecyclerView_Vie
     private static final int LIKE = 1;
     private RecyclerView listaAnimales;
     private ArrayList<Animal> animal;
-    private ImageButton imgButton;
+    String user;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,8 +47,13 @@ public class Recyclerview_Fragment extends Fragment implements IRecyclerView_Vie
     private String mParam1;
     private String mParam2;
 
-    public Recyclerview_Fragment() {
+    public Recyclerview_Fragment(String user) {
+        this.user = user;
         // Required empty public constructor
+    }
+
+    public Recyclerview_Fragment(){
+
     }
 
     /**
@@ -79,14 +89,18 @@ public class Recyclerview_Fragment extends Fragment implements IRecyclerView_Vie
 
         View v = inflater.inflate(R.layout.fragment_recyclerview_, container, false);
 
-        imgButton = v.findViewById(R.id.imgButton);
         animal = new ArrayList<Animal>();
         listaAnimales = v.findViewById(R.id.rvMascota);
-        generarLinearLayout();
+        if (user.equals(ConstantesUsuarios.NOMBRE)){
+            PuenteCosasHelloWorld puenteCosas = new PuenteCosasHelloWorld(getContext() , user , animal , this);
+            Log.e("Cosas" , String.valueOf(animal));
+            inicializarAdaptador(animal);
+            generarLinearLayout();
+        }
 
-        inicializarDB();
+        //inicializarDB();
 
-        inicializarAdaptador();
+
 
         // Inflate the layout for this fragment
         return v;
@@ -102,7 +116,7 @@ public class Recyclerview_Fragment extends Fragment implements IRecyclerView_Vie
 
 
 
-    public void inicializarDB(){
+    /*public void inicializarDB(){
         DB db = new DB(getContext());
        animal = db.obtenerTodosLosAnimales(animal);
         insertarAnimales(db);
@@ -127,20 +141,20 @@ public class Recyclerview_Fragment extends Fragment implements IRecyclerView_Vie
         contentValues.put(ConstantesBaseDatos.TABLE_ANIMALS_NOMBRE ,getResources().getString(R.string.Kali));
         contentValues.put(ConstantesBaseDatos.TABLE_ANIMALS_FOTO ,R.drawable.kali);
         db.insertarAnimales(contentValues);
-    }
+    }*/
 
 
     @Override
     public void generarLinearLayout() {
-        LinearLayoutManager glm = new LinearLayoutManager(getActivity());
+        LinearLayoutManager glm = new LinearLayoutManager(this.getContext());
         glm.setOrientation(RecyclerView.VERTICAL);
         listaAnimales.setLayoutManager(glm);
 
     }
 
     @Override
-    public void inicializarAdaptador() {
-        AnimalAdaptador adaptador = new AnimalAdaptador(getActivity() , animal ,imgButton);
+    public void inicializarAdaptador(ArrayList<Animal> animal) {
+        AnimalAdaptador adaptador = new AnimalAdaptador(getActivity(), animal , getContext());
         listaAnimales.setAdapter(adaptador);
 
     }

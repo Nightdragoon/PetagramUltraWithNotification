@@ -5,11 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.drawable.Animatable2;
 
 import androidx.annotation.Nullable;
 
+import com.joaquinemmanuel.petagramultra.Constantes.ConstantesBaseDatos;
+import com.joaquinemmanuel.petagramultra.Constantes.ConstantesUsuarios;
 import com.joaquinemmanuel.petagramultra.pojo.Animal;
+import com.joaquinemmanuel.petagramultra.pojo.Usuario;
 
 import java.util.ArrayList;
 
@@ -38,7 +40,6 @@ public class DB extends SQLiteOpenHelper {
                 ConstantesBaseDatos.TABLE_ANIMALS_NOMBRE + " TEXT, "+
                 ConstantesBaseDatos.TABLE_ANIMALS_FOTO + " INTEGER" +
                 ")";
-
         String queryCrearTablaAnimalesLikes = "CREATE TABLE " + ConstantesBaseDatos.TABLE_LIKES_ANIMAL + "(" +
                 ConstantesBaseDatos.TABLE_LIKES_ANIMAL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 ConstantesBaseDatos.TABLE_LIKES_ANIMALS_ID_Animals + " INTEGER, " +
@@ -47,18 +48,90 @@ public class DB extends SQLiteOpenHelper {
                 "REFERENCES " + ConstantesBaseDatos.TABLE_ANIMALS + "(" + ConstantesBaseDatos.TABLE_ANIMALS_ID + ")" +
                 ")";
 
+        String queryCrearTablaUsuarios = "CREATE TABLE " + ConstantesBaseDatos.TABLE_USUARIOS + "(" +
+                ConstantesBaseDatos.TABLE_USUARIOS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                ConstantesBaseDatos.TABLE_USUARIOS_NOMBRE + " TEXT, " +
+                ConstantesBaseDatos.TABLE_USUARIOS_ACCESS_TOKES  + " TEXT" + ")";
+
+        String queryCrearTablaFavoritos ="CREATE TABLE " + ConstantesBaseDatos.TABLE_FAVORITOS + "(" +
+                ConstantesBaseDatos.TABLE_FAVORITOS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                ConstantesBaseDatos.TABLE_FAVORITOS_NOMBRE + " TEXT, " +
+                ConstantesBaseDatos.TABLE_FAVORITOS_FOTO + " TEXT" + ")";
+
         db.execSQL(queryCrearTablaAnimales);
         db.execSQL(queryCrearTablaAnimalesLikes);
+        db.execSQL(queryCrearTablaUsuarios);
+        db.execSQL(queryCrearTablaFavoritos);
+    }
+
+    public ContentValues  ponerFavoritos(String nombre , String foto){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ConstantesBaseDatos.TABLE_FAVORITOS_NOMBRE , nombre );
+        contentValues.put(ConstantesBaseDatos.TABLE_FAVORITOS_FOTO , foto);
+        return contentValues;
+    }
+
+    public void insertarFavoritos(ContentValues contentValues){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.insert(ConstantesBaseDatos.TABLE_FAVORITOS , null , contentValues);
+        db.close();
+    }
+
+    public ArrayList<Animal> obtenerFavoritos (){
+        String query = "SELECT * FROM " + ConstantesBaseDatos.TABLE_FAVORITOS;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor registros = db.rawQuery(query , null);
+        ArrayList<Animal> favoritos = new ArrayList<>();
+        while (registros.moveToNext()){
+            Animal animalFavoritoActual = new Animal();
+            animalFavoritoActual.setNombre(registros.getString(1));
+            animalFavoritoActual.setId(Integer.toString(registros.getInt(0)));
+            animalFavoritoActual.setFoto(registros.getString(2));
+
+            favoritos.add(animalFavoritoActual);
+        }
+
+        return favoritos;
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + ConstantesBaseDatos.TABLE_FAVORITOS);
+        db.execSQL("DROP TABLE IF EXISTS " + ConstantesBaseDatos.TABLE_USUARIOS);
         db.execSQL("DROP TABLE IF EXISTS " + ConstantesBaseDatos.TABLE_ANIMALS);
-        db.execSQL("DROP TABLE IF EXISTS " + ConstantesBaseDatos.TABLE_LIKES_ANIMAL);
+    }
+
+    public ArrayList<Usuario> verUsuarios(ArrayList<Usuario> usuarios){
+        String query = "SELECT * FROM " + ConstantesBaseDatos.TABLE_USUARIOS;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor registros = db.rawQuery(query , null);
+        while (registros.moveToNext()){
+            Usuario usuarioActual = new Usuario();
+            usuarioActual.setId(registros.getInt(0));
+            usuarioActual.setNombre(registros.getString(1));
+            usuarioActual.setAccess_token(registros.getString(2));
+            usuarios.add(usuarioActual);
+
+        }
+        return usuarios;
+    }
+
+    public void iniciarUsuarios(){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ConstantesBaseDatos.TABLE_USUARIOS_NOMBRE , ConstantesUsuarios.NOMBRE);
+        contentValues.put(ConstantesBaseDatos.TABLE_USUARIOS_ACCESS_TOKES , ConstantesUsuarios.ACCESS_TOKEN);
+        ponerUsuarios(contentValues);
+
+    }
+    public void ponerUsuarios (ContentValues contentValues){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.insert(ConstantesBaseDatos.TABLE_USUARIOS , null , contentValues);
+        db.close();
+
     }
 
     public ArrayList<Animal> obtenerTodosLosAnimales(ArrayList<Animal> animals){
-        String query = "SELECT * FROM " + ConstantesBaseDatos.TABLE_ANIMALS;
+        /*String query = "SELECT * FROM " + ConstantesBaseDatos.TABLE_ANIMALS;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor registros = db.rawQuery(query , null);
         while (registros.moveToNext()){
@@ -79,8 +152,8 @@ public class DB extends SQLiteOpenHelper {
                 animalActual.setLikes(0);
             }
 
-        }
-        db.close();
+        }*/
+        //db.close();
 
 
         return animals;

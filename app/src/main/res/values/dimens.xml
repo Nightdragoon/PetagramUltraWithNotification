@@ -4,7 +4,7 @@
     <dimen name="cvLikeNumber">150dp</dimen>
     <dimen name="cvLikes">20dp</dimen>
     <dimen name="cvPerroNombre">17dp</dimen>
-    <dimen name="tbButtonMarginLeft">350dp</dimen>
+    <dimen name="tbButtonMarginLeft">250dp</dimen>
     <dimen name="tbNombre">100dp</dimen>
     <dimen name="tbEmail">40dp</dimen>
     <dimen name="tbMenaje">40dp</dimen>
