@@ -31,8 +31,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Uri sonido = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder noBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.cynder_p)
-                .setContentTitle("Like")
-                .setContentText("Le has dado like")
+                .setContentTitle(from)
+                .setContentText(message)
                 .setSound(sonido)
                 .setAutoCancel(true);
 
