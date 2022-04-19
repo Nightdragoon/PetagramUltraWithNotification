@@ -19,6 +19,7 @@
     <string name="etButton">Volver a petagram</string>
     <string name="HintForUser"></string>
     <string name="continuar">Continuar</string>
+    <string name="Noti">Recibir Notificaciones</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

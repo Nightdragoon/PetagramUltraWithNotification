@@ -20,5 +20,11 @@
 
     </item>
 
+    <item
+        android:id="@+id/mRecibirNorificaciones"
+        android:title="@string/Noti">
+
+    </item>
+
 
 </menu>

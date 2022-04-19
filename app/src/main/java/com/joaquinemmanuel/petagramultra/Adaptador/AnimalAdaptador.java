@@ -35,6 +35,7 @@ public class AnimalAdaptador extends RecyclerView.Adapter<AnimalAdaptador.Animal
     FragmentActivity activity;
     Context context;
     private String PerroNombre;
+    String user_id;
     ArrayList<Animal> fAnimal = new ArrayList<Animal>();
 
 
@@ -44,10 +45,11 @@ public class AnimalAdaptador extends RecyclerView.Adapter<AnimalAdaptador.Animal
 
 
 
-    public AnimalAdaptador (FragmentActivity activity , ArrayList<Animal> animal  , Context context){
+    public AnimalAdaptador (FragmentActivity activity , ArrayList<Animal> animal  , Context context , String user_id){
         this.context = context;
         this.activity = activity;
         this.animal = animal;
+        this.user_id = user_id;
     }
 
     public String getPerroNombre() {

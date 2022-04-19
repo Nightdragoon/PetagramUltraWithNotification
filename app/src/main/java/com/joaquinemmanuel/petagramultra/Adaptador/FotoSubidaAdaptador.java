@@ -14,7 +14,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.joaquinemmanuel.petagramultra.ApiRest.Adapter.RestApiAdapter;
+import com.joaquinemmanuel.petagramultra.ApiRest.IEndPointApi;
+import com.joaquinemmanuel.petagramultra.Modelo.LikeResponse;
 import com.joaquinemmanuel.petagramultra.R;
 import com.joaquinemmanuel.petagramultra.db.DB;
 import com.joaquinemmanuel.petagramultra.pojo.Animal;
@@ -24,14 +30,21 @@ import java.util.ArrayList;
 
 import static android.widget.Toast.makeText;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class FotoSubidaAdaptador extends RecyclerView.Adapter<FotoSubidaAdaptador.FotoSubidaViewHolder> {
     Context context;
+    String id_usuario_instagram;
+    String token;
 
     ArrayList<Animal> FotoSubida;
 
-    public FotoSubidaAdaptador(Context context , ArrayList<Animal> FotoSubida){
+    public FotoSubidaAdaptador(Context context , ArrayList<Animal> FotoSubida , String id_usuario_instagram){
         this.context = context;
         this.FotoSubida = FotoSubida;
+        this.id_usuario_instagram = id_usuario_instagram;
     }
     @NonNull
     @Override
@@ -54,6 +67,39 @@ public class FotoSubidaAdaptador extends RecyclerView.Adapter<FotoSubidaAdaptado
                 db.insertarFavoritos(contentValues);
                 makeText(context, "Animal inserstado en favoritos", Toast.LENGTH_SHORT).show();
                 db.close();
+                FirebaseMessaging.getInstance().getToken()
+                        .addOnCompleteListener(new OnCompleteListener<String>() {
+                            @Override
+                            public void onComplete(@NonNull Task<String> task) {
+                                if (!task.isSuccessful()){
+                                    makeText(context, "token failed", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }else{
+                                    token = task.getResult();
+                                }
+
+
+                            }
+                        });
+                RestApiAdapter restApiAdapter = new RestApiAdapter();
+                IEndPointApi iEndPointApi = restApiAdapter.darLikes();
+                Call<LikeResponse> likeResponseCall = iEndPointApi.setLikes(fotosubida.getId() ,
+                        id_usuario_instagram , token);
+                likeResponseCall.enqueue(new Callback<LikeResponse>() {
+                    @Override
+                    public void onResponse(Call<LikeResponse> call, Response<LikeResponse> response) {
+                        makeText(context, "like dado", Toast.LENGTH_SHORT).show();
+                        LikeResponse likeResponse = response.body();
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<LikeResponse> call, Throwable t) {
+
+                    }
+                });
+
+
             }
         });
 

@@ -20,6 +20,22 @@ public class RestApiAdapter {
         return retrofit.create(IEndPointApi.class);
     }
 
+    public IEndPointApi obtenerToken (){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ConstanteRestApi.TOKEN_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        return  retrofit.create(IEndPointApi.class);
+    }
+
+    public IEndPointApi darLikes(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ConstanteRestApi.LIKE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        return retrofit.create(IEndPointApi.class);
+    }
+
     public Gson ConstruyeGsonDeserealizadorMediaRecent(){
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(AnimalResponse.class , new AnimalDeserealizador());

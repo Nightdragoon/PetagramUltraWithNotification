@@ -38,6 +38,8 @@ public class miMascota_Fragment extends Fragment implements IRecyclerView_View{
     private ImageView perra;
     private TextView Nombresito;
     private CircleImageView circleImageView;
+    String token;
+    String user_id;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,8 +53,10 @@ public class miMascota_Fragment extends Fragment implements IRecyclerView_View{
     public miMascota_Fragment() {
         // Required empty public constructor
     }
-    public miMascota_Fragment(String user){
+    public miMascota_Fragment(String user , String token , String user_id){
         this.user = user;
+        this.token = token;
+        this.user_id = user_id;
     }
 
     /**
@@ -92,10 +96,9 @@ public class miMascota_Fragment extends Fragment implements IRecyclerView_View{
         circleImageView.setImageResource(R.drawable.cynder_p);
 
         fotosSubidas = new ArrayList<Animal>();
-        if (user.equals(ConstantesUsuarios.NOMBRE)){
-            PuenteCosasHelloWorld puenteCosasHelloWorld = new PuenteCosasHelloWorld(this.getContext() ,fotosSubidas  , this);
-            puenteCosasHelloWorld.crearLlamadaFotoSubida();
-        }
+        PuenteCosasHelloWorld puenteCosasHelloWorld = new PuenteCosasHelloWorld(this.getContext() ,fotosSubidas  , this , token);
+        puenteCosasHelloWorld.crearLlamadaFotoSubida();
+
 
 
 
@@ -118,7 +121,7 @@ public class miMascota_Fragment extends Fragment implements IRecyclerView_View{
     }
 
     public void inicializarRC(ArrayList<Animal> fotosSubidas) {
-        FotoSubidaAdaptador adaptador = new FotoSubidaAdaptador(getContext() , fotosSubidas);
+        FotoSubidaAdaptador adaptador = new FotoSubidaAdaptador(getContext() , fotosSubidas , user_id);
         fotos.setAdapter(adaptador);
     }
     public void generarGridLayout() {

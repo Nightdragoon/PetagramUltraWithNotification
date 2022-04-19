@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "883110077081",
+    "project_id": "petagramultra",
+    "storage_bucket": "petagramultra.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:883110077081:android:7fa95bde981d46e96d8e08",
+        "android_client_info": {
+          "package_name": "com.joaquinemmanuel.petagramultra"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "883110077081-b8q42c32s69jtlv0pp1df5v2tibqcl6d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.joaquinemmanuel.petagramultra",
+            "certificate_hash": "b4978db7a9bb440d575ae51232e906619db081eb"
+          }
+        },
+        {
+          "client_id": "883110077081-8ohgajblkgvl9311j3tdbqrohmju1eaf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh_pRxrh8uN_k9gptn0BgeQSV-PvMyiWk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "883110077081-8ohgajblkgvl9311j3tdbqrohmju1eaf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

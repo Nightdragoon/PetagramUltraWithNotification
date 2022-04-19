@@ -37,6 +37,8 @@ public class Recyclerview_Fragment extends Fragment implements IRecyclerView_Vie
     private RecyclerView listaAnimales;
     private ArrayList<Animal> animal;
     String user;
+    String token;
+    String user_id;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,8 +49,10 @@ public class Recyclerview_Fragment extends Fragment implements IRecyclerView_Vie
     private String mParam1;
     private String mParam2;
 
-    public Recyclerview_Fragment(String user) {
+    public Recyclerview_Fragment(String user , String token ,String user_id) {
         this.user = user;
+        this.token = token;
+        this.user_id = user_id;
         // Required empty public constructor
     }
 
@@ -91,12 +95,12 @@ public class Recyclerview_Fragment extends Fragment implements IRecyclerView_Vie
 
         animal = new ArrayList<Animal>();
         listaAnimales = v.findViewById(R.id.rvMascota);
-        if (user.equals(ConstantesUsuarios.NOMBRE)){
-            PuenteCosasHelloWorld puenteCosas = new PuenteCosasHelloWorld(getContext() , user , animal , this);
-            Log.e("Cosas" , String.valueOf(animal));
-            inicializarAdaptador(animal);
-            generarLinearLayout();
-        }
+
+        PuenteCosasHelloWorld puenteCosas = new PuenteCosasHelloWorld(getContext() , user , animal , this , token);
+        Log.e("Cosas" , String.valueOf(animal));
+        inicializarAdaptador(animal);
+        generarLinearLayout();
+
 
         //inicializarDB();
 
@@ -154,7 +158,7 @@ public class Recyclerview_Fragment extends Fragment implements IRecyclerView_Vie
 
     @Override
     public void inicializarAdaptador(ArrayList<Animal> animal) {
-        AnimalAdaptador adaptador = new AnimalAdaptador(getActivity(), animal , getContext());
+        AnimalAdaptador adaptador = new AnimalAdaptador(getActivity(), animal , getContext() , user_id);
         listaAnimales.setAdapter(adaptador);
 
     }
